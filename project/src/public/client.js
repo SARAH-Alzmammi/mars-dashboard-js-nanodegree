@@ -1,8 +1,10 @@
-let store = {
+
+let store = Immutable.Map({
     user: { name: "Student" },
+    rovers: Immutable.List(['Curiosity', 'Opportunity', 'Spirit']),
     apod: '',
-    rovers: ['Curiosity', 'Opportunity', 'Spirit'],
-}
+
+})
 
 // add our markup to the page
 const root = document.getElementById('root')
@@ -24,20 +26,23 @@ const App = (state) => {
     return `
         <header></header>
         <main>
-            ${Greeting(store.user.name)}
-            <section>
-                <h3>Put things on the page!</h3>
-                <p>Here is an example section.</p>
-                <p>
-                    One of the most popular websites at NASA is the Astronomy Picture of the Day. In fact, this website is one of
-                    the most popular websites across all federal agencies. It has the popular appeal of a Justin Bieber video.
-                    This endpoint structures the APOD imagery and associated metadata so that it can be repurposed for other
-                    applications. In addition, if the concept_tags parameter is set to True, then keywords derived from the image
-                    explanation are returned. These keywords could be used as auto-generated hashtags for twitter or instagram feeds;
-                    but generally help with discoverability of relevant imagery.
-                </p>
-                ${ImageOfTheDay(apod)}
-            </section>
+        <h1 class="text-success text-center p-4">Mars Dashboard</h1>
+        <nav>
+        <div class="nav nav-tabs nav-fill bg-dark" id="nav-tab" role="tablist">
+          <button class=" text-success nav-link ${Array(store.apod?.latest_photos)?.[0]?.[0].rover.name =='Opportunity' ?'active':''}" id="nav-opportunity-tab" data-bs-toggle="tab" data-bs-target="#nav-opportunity" type="button" role="tab" aria-controls="nav-opportunity" aria-selected="true" onclick="getOpportunity()">Opportunity</button>
+          <button class=" text-success nav-link ${Array(store.apod?.latest_photos)?.[0]?.[0].rover.name =='Curiosity' ?'active':''}"" id="nav-curiosity-tab" data-bs-toggle="tab" data-bs-target="#nav-curiosity" type="button" role="tab" aria-controls="nav-curiosity" aria-selected="false" onclick="getCuriosity()">Curiosity</button>
+          <button class=" text-success nav-link ${Array(store.apod?.latest_photos)?.[0]?.[0].rover.name =='Spirit' ?'active':''}"" id="nav-spirit-tab" data-bs-toggle="tab" data-bs-target="#nav-spirit" type="button" role="tab" aria-controls="nav-spirit" aria-selected="false" onclick="getSpirit()">Spirit</button>
+ 
+        </div>
+      </nav>
+      <div class="tab-content" id="nav-tabContent">
+
+         ${getRoverInfo()}
+ 
+      <div class="d-flex justify-content-center flex-wrap gap-2" >
+        ${updatePhotos()}
+         </div>
+      </div>
         </main>
         <footer></footer>
     `
@@ -47,6 +52,7 @@ const App = (state) => {
 window.addEventListener('load', () => {
     render(root, store)
 })
+
 
 // ------------------------------------------------------  COMPONENTS
 
@@ -97,9 +103,74 @@ const ImageOfTheDay = (apod) => {
 const getImageOfTheDay = (state) => {
     let { apod } = state
 
-    fetch(`http://localhost:3000/apod`)
-        .then(res => res.json())
-        .then(apod => updateStore(store, { apod }))
+    fetch(`http://localhost:3000/spirit`)
+        .then(res => res.json())  
+        .then(apod => updateStore(store,{ apod }));
 
     return data
 }
+
+const getSpirit = () => {
+    fetch(`http://localhost:3000/spirit`)
+        .then(res => res.json())
+        .then(apod => updateStore(store,{ apod }));
+    return store
+}
+
+const getCuriosity = () => {
+    fetch(`http://localhost:3000/curiosity`)
+        .then(res => res.json())
+        .then(apod => updateStore(store, { apod }));
+
+    return store
+}
+
+const getOpportunity = () => {
+    fetch(`http://localhost:3000/opportunity`)
+        .then(res => res.json())
+        .then(apod => updateStore(store,{ apod }));
+    return store
+}
+
+const updatePhotos = () => {
+    if (store?.apod?.latest_photos) {
+        return store.apod.latest_photos.map((item) => 
+        `      
+        <div class="card" style="width: 12rem;">
+        <img src="${item.img_src}" class="card-img-top" alt="...">
+        </div>
+        `
+        ).slice(0, 100).join("") 
+    }
+return ''
+}
+
+const getRoverInfo = () => {
+    const rover = Array(store.apod?.latest_photos)?.[0]?.[0].rover;
+    if (rover != undefined) {
+        return `     
+        <div class="card m-3 bg-dark text-light">
+        <div class="card-body d-flex justify-content-center p-3 gap-1 flex-wrap">
+        <div class="d-flex justify-content-center flex-wrap  gap-1">   
+            <span class="badge bg-success">Landing Date</span>
+            <span class="">${rover.landing_date}</span> 
+        </div>
+        <div class="vr"></div>
+        <div class="d-flex justify-content-center flex-wrap  gap-1">   
+        <span class="badge bg-success">Launch Date</span>
+        <span class="">${rover.launch_date}</span> 
+        </div>
+        <div class="vr"></div>
+        <div class="d-flex justify-content-center flex-wrap  gap-1">   
+        <span class="badge bg-success">Status</span>
+        <span class="">${rover.status}</span> 
+        </div>
+        </div>
+        </div>
+        `
+    }  
+    return ''
+    
+}
+
+

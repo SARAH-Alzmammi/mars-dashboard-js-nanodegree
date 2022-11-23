@@ -5,6 +5,9 @@ body {
   flex-direction: column;
   font-family: Arial;
   min-height: 100vh;
+  padding: 3rem;
+  background-color: #121212 !important;
+
 }
 
 header {
@@ -35,4 +38,19 @@ footer {
 
 @media (min-width: 1824px) {
   /* use mobile */
+}
+
+.nav-tabs{
+border:none!important; 
+}
+
+
+.nav-tabs  .nav-link.active {
+  background-color: #121212 !important; 
+ 
+}
+
+.card {
+  border:none!important; 
+ 
 }

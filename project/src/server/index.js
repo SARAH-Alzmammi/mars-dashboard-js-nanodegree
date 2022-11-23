@@ -14,6 +14,40 @@ app.use('/', express.static(path.join(__dirname, '../public')))
 
 // your API calls
 
+//curiosity
+app.get('/curiosity', async (req, res) => {
+    try {
+        let data = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/latest_photos?api_key=${process.env.API_KEY}`)
+            .then(data => data.json())
+             res.send(data)
+    } catch (err) {
+        console.log('error:', err);
+    }
+})
+
+
+//opportunity 
+app.get('/opportunity', async (req, res) => {
+    try {
+        let data = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/opportunity/latest_photos?api_key=${process.env.API_KEY}`)
+            .then(data => data.json())
+             res.send(data)
+    } catch (err) {
+        console.log('error:', err);
+    }
+})
+
+//spirit
+app.get('/spirit', async (req, res) => {
+    try {
+        let data = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/spirit/latest_photos?api_key=${process.env.API_KEY}`)
+            .then(data => data.json())
+             res.send(data)
+    } catch (err) {
+        console.log('error:', err);
+    }
+})
+
 // example API call
 app.get('/apod', async (req, res) => {
     try {
