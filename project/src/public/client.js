@@ -132,18 +132,23 @@ const getOpportunity = () => {
     return store
 }
 
-const updatePhotos = () => {
-    if (store?.apod?.latest_photos) {
-        return store.apod.latest_photos.map((item) => 
+const updatePhoto = (array) => {
+    array.map((item) => 
         `      
         <div class="card" style="width: 12rem;">
         <img src="${item.img_src}" class="card-img-top" alt="...">
         </div>
         `
         ).slice(0, 100).join("") 
+}
+
+const updatePhotos = () => {
+    if (store?.apod?.latest_photos) {
+        return updatePhoto(store?.apod?.latest_photos)
     }
 return ''
 }
+
 
 const getRoverInfo = () => {
     const rover = Array(store.apod?.latest_photos)?.[0]?.[0].rover;
