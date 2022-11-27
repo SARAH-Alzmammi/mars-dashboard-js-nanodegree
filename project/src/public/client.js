@@ -133,7 +133,7 @@ const getOpportunity = () => {
 }
 
 const updatePhoto = (array) => {
-    array.map((item) => 
+    return array.map((item) => 
         `      
         <div class="card" style="width: 12rem;">
         <img src="${item.img_src}" class="card-img-top" alt="...">
