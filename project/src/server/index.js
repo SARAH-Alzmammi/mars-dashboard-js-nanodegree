@@ -17,7 +17,7 @@ app.use('/', express.static(path.join(__dirname, '../public')))
 //curiosity
 app.get('/curiosity', async (req, res) => {
     try {
-        let data = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/latest_photos?api_key=${process.env.API_KEY}`)
+        const data = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/latest_photos?api_key=${process.env.API_KEY}`)
             .then(data => data.json())
              res.send(data)
     } catch (err) {
@@ -29,7 +29,7 @@ app.get('/curiosity', async (req, res) => {
 //opportunity 
 app.get('/opportunity', async (req, res) => {
     try {
-        let data = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/opportunity/latest_photos?api_key=${process.env.API_KEY}`)
+        const data = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/opportunity/latest_photos?api_key=${process.env.API_KEY}`)
             .then(data => data.json())
              res.send(data)
     } catch (err) {
@@ -40,7 +40,7 @@ app.get('/opportunity', async (req, res) => {
 //spirit
 app.get('/spirit', async (req, res) => {
     try {
-        let data = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/spirit/latest_photos?api_key=${process.env.API_KEY}`)
+        const data = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/spirit/latest_photos?api_key=${process.env.API_KEY}`)
             .then(data => data.json())
              res.send(data)
     } catch (err) {
@@ -51,7 +51,7 @@ app.get('/spirit', async (req, res) => {
 // example API call
 app.get('/apod', async (req, res) => {
     try {
-        let image = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`)
+        const image = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`)
             .then(res => res.json())
         res.send({ image })
     } catch (err) {
