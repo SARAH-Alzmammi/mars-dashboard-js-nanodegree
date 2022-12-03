@@ -150,29 +150,33 @@ return ''
 }
 
 
+const updateRoverInfo = (rover) => {
+    return  `     
+    <div class="card m-3 bg-dark text-light">
+    <div class="card-body d-flex justify-content-center p-3 gap-1 flex-wrap">
+    <div class="d-flex justify-content-center flex-wrap  gap-1">   
+        <span class="badge bg-success">Landing Date</span>
+        <span class="">${rover.landing_date}</span> 
+    </div>
+    <div class="vr"></div>
+    <div class="d-flex justify-content-center flex-wrap  gap-1">   
+    <span class="badge bg-success">Launch Date</span>
+    <span class="">${rover.launch_date}</span> 
+    </div>
+    <div class="vr"></div>
+    <div class="d-flex justify-content-center flex-wrap  gap-1">   
+    <span class="badge bg-success">Status</span>
+    <span class="">${rover.status}</span> 
+    </div>
+    </div>
+    </div>
+    `
+ }
+ 
 const getRoverInfo = () => {
     const rover = Array(store.apod?.latest_photos)?.[0]?.[0].rover;
     if (rover != undefined) {
-        return `     
-        <div class="card m-3 bg-dark text-light">
-        <div class="card-body d-flex justify-content-center p-3 gap-1 flex-wrap">
-        <div class="d-flex justify-content-center flex-wrap  gap-1">   
-            <span class="badge bg-success">Landing Date</span>
-            <span class="">${rover.landing_date}</span> 
-        </div>
-        <div class="vr"></div>
-        <div class="d-flex justify-content-center flex-wrap  gap-1">   
-        <span class="badge bg-success">Launch Date</span>
-        <span class="">${rover.launch_date}</span> 
-        </div>
-        <div class="vr"></div>
-        <div class="d-flex justify-content-center flex-wrap  gap-1">   
-        <span class="badge bg-success">Status</span>
-        <span class="">${rover.status}</span> 
-        </div>
-        </div>
-        </div>
-        `
+        return updateRoverInfo(rover)
     }  
     return ''
     
